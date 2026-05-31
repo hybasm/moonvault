@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paiement — Moon Vault</title>
+  <link rel="stylesheet" href="moonvault.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">Moon Vault</div>
+    <nav class="nav">
+      <a href="moonvault.html">Accueil</a>
+      <a href="collection.html">Collections</a>
+      <a href="apropos.html">À propos</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="payment-page">
+    <h1>Paiement en ligne sécurisé</h1>
+    <p>Renseignez les informations de votre carte pour finaliser votre achat.</p>
+
+    <div class="payment-summary" id="payment-summary">
+      <strong>Résumé de la commande</strong>
+      <p id="payment-summary-text">Chargement du produit...</p>
+    </div>
+
+    <form id="payment-form" class="product-form">
+      <div class="section-card">
+        <h2>Informations client</h2>
+        <label for="customer-firstname">Prénom</label>
+        <input id="customer-firstname" type="text" placeholder="Votre prénom" required>
+
+        <label for="customer-lastname">Nom</label>
+        <input id="customer-lastname" type="text" placeholder="Votre nom" required>
+
+        <label for="customer-email">Email</label>
+        <input id="customer-email" type="email" placeholder="vous@example.com" required>
+
+        <label for="customer-phone">Téléphone</label>
+        <input id="customer-phone" type="tel" placeholder="+33 6 12 34 56 78" required>
+      </div>
+
+      <div class="section-card">
+        <h2>Informations de paiement</h2>
+        <label for="card-name">Nom sur la carte</label>
+        <input id="card-name" type="text" placeholder="Nom tel qu'il apparaît sur la carte" required>
+
+        <label for="card-number">Numéro de carte</label>
+        <input id="card-number" type="text" placeholder="1234 5678 9012 3456" inputmode="numeric" required>
+
+        <div class="card-row">
+          <div>
+            <label for="expiry-date">Date d'expiration</label>
+            <input id="expiry-date" type="text" placeholder="MM/AA" pattern="^(0[1-9]|1[0-2])\/\d{2}$" required>
+          </div>
+          <div>
+            <label for="cvc">CVC</label>
+            <input id="cvc" type="text" placeholder="123" inputmode="numeric" pattern="\d{3,4}" required>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit">Payer maintenant</button>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Moon Vault — Paiement sécurisé</p>
+  </footer>
+
+  <script>
+    const products = {
+      robe: { name: 'Robe Nuit', price: '129€' },
+      blouse: { name: 'Blouse Satinée', price: '89€' },
+      veste: { name: 'Veste Structurée', price: '159€' },
+      'robe-noire': { name: 'Robe Noire', price: '139€' },
+      'jupe-fluide': { name: 'Jupe Fluide', price: '99€' },
+      'pantalon-croise': { name: 'Pantalon Croisé', price: '119€' }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const item = params.get('item') || 'robe';
+    const size = params.get('size') || 'M';
+    const quantity = params.get('quantity') || '1';
+    const paymentMethod = params.get('paymentMethod') || 'Carte bancaire';
+    const product = products[item] || products.robe;
+
+    const summaryText = document.getElementById('payment-summary-text');
+    summaryText.textContent = `Produit : ${product.name} • Taille : ${size} • Quantité : ${quantity} • Mode de paiement : ${paymentMethod} • Prix : ${product.price}`;
+
+    document.getElementById('payment-form').addEventListener('submit', event => {
+      event.preventDefault();
+      alert('Paiement simulé : merci, votre achat a bien été pris en compte.');
+      window.location.href = 'moonvault.html';
+    });
+  </script>
+</body>
+</html>

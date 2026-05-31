@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acheter — Moon Vault</title>
+  <link rel="stylesheet" href="moonvault.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">Moon Vault</div>
+    <nav class="nav">
+      <a href="moonvault.html">Accueil</a>
+      <a href="collection.html">Collections</a>
+      <a href="apropos.html">À propos</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="product-page">
+    <div class="product-grid">
+      <div class="product-image">
+        <img id="product-image" src="photorobe2.png.png" alt="Produit Moon Vault">
+      </div>
+
+      <div class="product-info">
+        <h1 id="product-name">Produit Moon Vault</h1>
+        <p class="description" id="product-description">Sélectionnez vos options pour finaliser votre achat. Choisissez la taille, la quantité et le mode de paiement pour continuer.</p>
+        <div class="price" id="product-price">129€</div>
+
+        <form id="purchase-form" class="product-form">
+          <label for="size">Taille</label>
+          <select id="size" required>
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+
+          <label for="quantity">Quantité</label>
+          <input id="quantity" type="number" min="1" value="1" required>
+
+          <label for="payment-method">Mode de paiement</label>
+          <select id="payment-method" required>
+            <option value="Carte bancaire">Carte bancaire</option>
+            <option value="PayPal">PayPal</option>
+            <option value="Virement">Virement bancaire</option>
+          </select>
+
+          <button type="submit">Acheter maintenant</button>
+
+          <div class="order-summary">
+            <strong>Résumé de commande</strong>
+            <div id="order-summary-text">Sélectionnez une taille, une quantité et un mode de paiement pour voir le résumé.</div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Moon Vault — Votre commande sous la lune</p>
+  </footer>
+
+  <script>
+    const products = {
+      robe: {
+        name: 'Robe Nuit',
+        price: '129€',
+        image: 'photorobe2.png.png',
+        description: 'Une robe mystérieuse et élégante, parfaite pour vos soirées sous les étoiles.'
+      },
+      blouse: {
+        name: 'Blouse Satinée',
+        price: '89€',
+        image: 'photochemise.png.png',
+        description: 'Une blouse satinée délicate, idéale pour un look chic et raffiné.'
+      },
+      veste: {
+        name: 'Veste Structurée',
+        price: '159€',
+        image: 'photojupe.png.png',
+        description: 'Une veste structurée aux lignes nettes pour une silhouette affirmée.'
+      },
+      'robe-noire': {
+        name: 'Robe Noire',
+        price: '139€',
+        image: 'photorobe2.png.png',
+        description: 'Une robe noire sophistiquée, parfaite pour un style intemporel et mystérieux.'
+      },
+      'ensemble-velours': {
+        name: 'Caftan de soirée Bleu Nuit',
+        price: '165€',
+        image: 'photohaut.png.png',
+        description: 'Un caftan de soirée bleu nuit élégant, parfait pour une apparition raffinée et chic.'
+      },
+      'robe-de-soiree': {
+        name: 'Robe de soirée rose bébé',
+        price: '150€',
+        image: 'robedesoirée.png.png',
+        description: 'Une robe de soirée rose bébé avec détails en or, idéale pour un événement élégant.'
+      },
+      'jupe-fluide': {
+        name: 'Jupe Fluide',
+        price: '99€',
+        image: 'photojupe.png.png',
+        description: 'Une jupe fluide qui apporte mouvement et élégance à chaque pas.'
+      },
+      'pantalon-croise': {
+        name: 'Pantalon Croisé',
+        price: '119€',
+        image: 'photochemise.png.png',
+        description: 'Un pantalon croisé moderne, parfait pour un look structuré et chic.'
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const item = params.get('item') || 'robe';
+    const product = products[item] || products.robe;
+
+    document.getElementById('product-name').textContent = product.name;
+    document.getElementById('product-price').textContent = product.price;
+    document.getElementById('product-image').src = product.image;
+    document.getElementById('product-image').alt = product.name;
+    document.getElementById('product-description').textContent = product.description;
+
+    const summaryText = document.getElementById('order-summary-text');
+    const updateSummary = () => {
+      const size = document.getElementById('size').value;
+      const quantity = document.getElementById('quantity').value;
+      const payment = document.getElementById('payment-method').value;
+      summaryText.textContent = `Produit : ${product.name} • Taille : ${size} • Quantité : ${quantity} • Paiement : ${payment}`;
+    };
+
+    document.getElementById('size').addEventListener('change', updateSummary);
+    document.getElementById('quantity').addEventListener('input', updateSummary);
+    document.getElementById('payment-method').addEventListener('change', updateSummary);
+    updateSummary();
+
+    document.getElementById('purchase-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const size = document.getElementById('size').value;
+      const quantity = document.getElementById('quantity').value;
+      const paymentMethod = document.getElementById('payment-method').value;
+      const params = new URLSearchParams({ item, size, quantity, paymentMethod });
+      window.location.href = `paiement.html?${params.toString()}`;
+    });
+  </script>
+</body>
+</html>
